@@ -99,9 +99,19 @@ isaa --replace side -- nmgui
 
 In my setup I have a variety of applications appear on my right hand side, including my application launcher `wofi`. This pattern allows my launcher and other side widgets to replace each other.
 
+## Logging
+
+`isaa` and `isaad` both use syslog.
+
+```
+journalctl -f
+```
+
+To watch it log.
+
 ## Contributing
 
-I am open to contributions either via email or Github. I would love o hear your use case and how we can improve ISAA.
+I am open to contributions either via [email](mailto:isaa@robertismo.com) or Github. I would love to hear your use case and how we can improve ISAA.
 
 compile with debug logging and flags
 
@@ -115,15 +125,12 @@ You can also use isaa as a library.
 make lib
 ```
 
-## Logging
+### TODO
 
-`isaa` and `isaad` both use syslog.
-
-```
-journalctl -f
-```
-
-To watch it log.
+- release 1.0.0
+- version flag
+- better hash implementation
+- fix logging so you can actuall use ```journal```
 
 ## License
 
