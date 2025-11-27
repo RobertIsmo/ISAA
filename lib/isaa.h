@@ -5,7 +5,7 @@
 #include <unistd.h>
 #include <sys/types.h>
 
-#define ISAA_IPC_TOKEN_FILE "/home"
+#define ISAA_IPC_TOKEN_FILE "/tmp/isaa_f"
 #define ISAA_IPC_ID 1
 #define ISAA_MANAGED_NAME_COUNT 1024
 #define ISAA_MAX_NAME_LENGTH 64
@@ -19,13 +19,13 @@ typedef enum {
 } IsaaEventType;
 
 typedef struct {
-	const IsaaEventType   type;
-	const char            name[ISAA_MAX_NAME_LENGTH];
+	IsaaEventType   type;
+	char            name[ISAA_MAX_NAME_LENGTH];
 } IsaaEvent;
 
 typedef struct {
-	const size_t       eventCount;
-	const IsaaEvent    events[ISAA_MAX_EVENT_COUNT];
+	size_t       eventCount;
+	IsaaEvent    events[ISAA_MAX_EVENT_COUNT];
 	
 	pid_t              pid;
 	char            *  command;
@@ -43,6 +43,7 @@ struct msgresbuf {
 };
 
 // Single Process Functions
+// Generally you should not use this, mainly for testing.
 int isaa_manage_process(IsaaProcess process);
 void isaa_cleanup(void);
 
