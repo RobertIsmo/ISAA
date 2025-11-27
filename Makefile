@@ -1,41 +1,97 @@
 CC = gcc
-CCFLAGS = -Wall -Wextra -Wpedantic -std=c99
-DEV_CFLAGS = -g -O0
+CCFLAGS = -Wall -Wextra -Wpedantic -std=c99 -fPIC
+DEBUG_CFLAGS = -g -O0 -DISAA_DEBUG
 RELEASE_CFLAGS = -O2 -DNDEBUG
 
-PREFIX = /usr/local
+BUILDDIR ?= build
+PREFIX ?= /usr/local
+DESTDIR ?=
 
-all: release
+default: release
+
+test: CCFLAGS += $(DEBUG_CFLAGS)
+test:$(BUILDDIR) $(BUILDDIR)/test_log
+	./$(BUILDDIR)/test_log
 
 release: CCFLAGS += $(RELEASE_CFLAGS)
-release: setup targets
+release:$(BUILDDIR) targets
 
-dev: CCFLAGS += $(DEV_CFLAGS)
-dev: setup targets
+debug: CCFLAGS += $(DEBUG_CFLAGS)
+debug:$(BUILDDIR) targets
 
-targets: build/isaa build/isaad
+lib: CCFLAGS += $(RELEASE_CFLAGS)
+lib: lib-setup $(BUILDDIR)/libisaa.a $(BUILDDIR)/libisaa.so
+lib-setup:$(BUILDDIR)
+	mkdir -p $(BUILDDIR)/include
+	cp lib/isaa.h $(BUILDDIR)/include/isaa.h
 
-build/isaa: build/cli.o build/isaa.o
-	$(CC) -o $@ $^
+targets: $(BUILDDIR)/isaa $(BUILDDIR)/isaad
 
-build/isaad: build/daemon.o build/isaa.o
-	$(CC) -o $@ $^
+$(BUILDDIR)/isaa: $(BUILDDIR)/cli.o $(BUILDDIR)/isaa.o $(BUILDDIR)/parse.o $(BUILDDIR)/logger.o
+	$(CC) $(CCFLAGS) -o $@ $^
 
-build/%.o: src/%.c
-	$(CC) $(CCFLAGS) -o $@ -c $<
-build/%.o: lib/%.c
-	$(CC) $(CCFLAGS) -o $@ -c $<
+$(BUILDDIR)/isaad: $(BUILDDIR)/daemon.o $(BUILDDIR)/isaa.o $(BUILDDIR)/parse.o $(BUILDDIR)/logger.o
+	$(CC) $(CCFLAGS) -o $@ $^
 
-setup:
-	mkdir -p build
+$(BUILDDIR)/libisaa.a: $(BUILDDIR)/isaa.o $(BUILDDIR)/logger.o
+	ar rcs $@ $^
+
+$(BUILDDIR)/libisaa.so: $(BUILDDIR)/isaa.o $(BUILDDIR)/logger.o
+	$(CC) $(CCFLAGS) -shared -o $@ $^
+
+$(BUILDDIR)/test_log: $(BUILDDIR)/test_log.o $(BUILDDIR)/logger.o
+	$(CC) $(CCFLAGS) -o $@ $^
+
+$(BUILDDIR)/%.o: bin/%.c
+	$(CC) $(CCFLAGS) -o $@ -c $^
+$(BUILDDIR)/%.o: lib/%.c
+	$(CC) $(CCFLAGS) -o $@ -c $^
+
+$(BUILDDIR):
+	mkdir -p $(BUILDDIR)
 
 clean:
-	rm -fr build
+	rm -fr $(BUILDDIR)
 
-install:
-	echo "UNIMPLEMENTED"
+install: install-bin install-lib install-headers
+
+install-bin:
+	@if [ -f $(BUILDDIR)/isaa ]; then \
+	    install -m755 -v $(BUILDDIR)/isaa $(DESTDIR)$(PREFIX)/bin/isaa; \
+	else \
+	    echo "Skipping isaa"; \
+	fi
+	@if [ -f $(BUILDDIR)/isaad ]; then \
+	    install -m755 -v $(BUILDDIR)/isaad $(DESTDIR)$(PREFIX)/bin/isaad; \
+	else \
+	    echo "Skipping isaad"; \
+	fi
+
+install-lib:
+	@if [ -f $(BUILDDIR)/libisaa.a ]; then \
+	    install -m644 -v $(BUILDDIR)/libisaa.a $(DESTDIR)$(PREFIX)/lib/libisaa.a; \
+	else \
+	    echo "Skipping static lib"; \
+	fi
+	@if [ -f $(BUILDDIR)/libisaa.so ]; then \
+	    install -m755 -v $(BUILDDIR)/libisaa.so $(DESTDIR)$(PREFIX)/lib/libisaa.so; \
+	else \
+	    echo "Skipping shared lib"; \
+	fi
+
+install-headers:
+	@if [ -f $(BUILDDIR)/include/isaa.h ]; then \
+	    install -m644 -v $(BUILDDIR)/include/isaa.h $(DESTDIR)$(PREFIX)/include/isaa.h; \
+	else \
+	    echo "Skipping header"; \
+	fi
 
 uninstall:
-	echo "UNIMPLEMENTED"
+	rm -f $(DESTDIR)$(PREFIX)/bin/isaa
+	rm -f $(DESTDIR)$(PREFIX)/bin/isaad
+	rm -f $(DESTDIR)$(PREFIX)/lib/libisaa.a
+	rm -f $(DESTDIR)$(PREFIX)/lib/libisaa.so
+	rm -f $(DESTDIR)$(PREFIX)/include/isaa.h
 
-.PHONY: all clean install uninstall
+.PHONY: default test release debug lib targets clean install uninstall \
+        install-bin install-lib install-headers
