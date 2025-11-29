@@ -2,6 +2,23 @@
 
 Interior Sergeant-At-Arms(ISAA) is a Free Software simple singleton process manager. It's job is to make sure only one process of a certain class is running at a time. It is broken up into two programs: `isaa`, a cli tool to attempt to run porcesses with; `isaad`, a daemon to govern whether to terminate a process or whether attempts to run a process should be allowed or not.
 
+<!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
+**Table of Contents**
+
+- [Interior Sergeant-At-Arms](#interior-sergeant-at-arms)
+  - [Table of Contents](#table-of-contents)
+  - [Why?](#why)
+  - [Installation](#installation)
+  - [Usage](#usage)
+    - [Examples](#examples)
+  - [Logging](#logging)
+  - [Contributing](#contributing)
+    - [TODO](#todo)
+  - [License](#license)
+
+<!-- markdown-toc end -->
+
+
 ## Why?
 
 For me personally, ISAA improved the feel of my GNU/Linux system. For example toggling my app launcher whenever I do the hotkey again, like MacOS. Also, making sure only one widget exists in the same general window position. For the first example, there were shell commands I could use to do this, but those would kill all of my wofi instances and a program is more portable as a whole. For the second example, there are probably ways of working with your compositor to do this, but ISAA attempts to follow the Unix philosophy, allowing it to once again be more portable.
