@@ -6,7 +6,6 @@ Interior Sergeant-At-Arms(ISAA) is a Free Software simple singleton process mana
 **Table of Contents**
 
 - [Interior Sergeant-At-Arms](#interior-sergeant-at-arms)
-  - [Table of Contents](#table-of-contents)
   - [Why?](#why)
   - [Installation](#installation)
   - [Usage](#usage)
