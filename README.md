@@ -1,6 +1,6 @@
 # Interior Sergeant-At-Arms
 
-Interior Sergeant-At-Arms(ISAA) is a simple singleton process manager. It's job is to make sure only one process of a certain class is running at a time. It is broken up into two programs: `isaa`, a cli tool to attempt to run porcesses with; `isaad`, a daemon to govern whether to terminate a process or whether attempts to run a process should be allowed or not.
+Interior Sergeant-At-Arms(ISAA) is a Free Software simple singleton process manager. It's job is to make sure only one process of a certain class is running at a time. It is broken up into two programs: `isaa`, a cli tool to attempt to run porcesses with; `isaad`, a daemon to govern whether to terminate a process or whether attempts to run a process should be allowed or not.
 
 ## Why?
 
@@ -134,4 +134,4 @@ make lib
 
 ## License
 
-All the code in this repository is licensed under the GNU Affero General Public License.
+ISAA is Free Software. All the code in this repository is licensed under the GNU Affero General Public License.
