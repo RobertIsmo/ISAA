@@ -27,7 +27,7 @@ For me personally, ISAA improved the feel of my GNU/Linux system. For example to
 
 clone a release.
 
-```git clone --depth 1 -b w0.0.0 https://robertismo.com/git/isaa```
+```git clone -b w0.0.0 https://robertismo.com/git/isaa```
 
 Then use `make`. 
 
