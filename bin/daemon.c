@@ -12,6 +12,9 @@ int main(int argc, char ** argv) {
 	case ISAA_PARSE_HELP:
 		isaa_log_daemon_help();
 		return EXIT_SUCCESS;
+	case ISAA_PARSE_VERSION:
+		isaa_log_version();
+		return EXIT_SUCCESS;
 	case ISAA_PARSE_BAD:
 		break;
 	}

@@ -13,6 +13,9 @@ int main(int argc, char ** argv) {
 	case ISAA_PARSE_HELP:
 		isaa_log_cli_help();
 		return EXIT_SUCCESS;
+	case ISAA_PARSE_VERSION:
+		isaa_log_version();
+		return EXIT_SUCCESS;
 	case ISAA_PARSE_BAD:
 		isaa_log_error(true, "isaa cli", "bad arguments. Use -h/--help to see usage.");
 		return EXIT_FAILURE;

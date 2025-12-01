@@ -36,6 +36,10 @@ ISAA_PARSE_CODE parse_args(
 				return ISAA_PARSE_HELP;
 			}
 
+			if (strcmp(argv[i], "-v") == 0 || strcmp(argv[i], "--version")  == 0) {
+				return ISAA_PARSE_VERSION;
+			}
+
 			if (strcmp(argv[i], "--") == 0) {
 				escape = true;
 				continue;

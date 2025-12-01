@@ -19,5 +19,6 @@ void isaa_log_critical(const bool toStdOutOnly, const char * topic, const char *
 
 void isaa_log_cli_help(void);
 void isaa_log_daemon_help(void);
+void isaa_log_version(void);
 
 #endif // LOGGER_H
