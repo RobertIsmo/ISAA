@@ -12,7 +12,6 @@ Interior Sergeant-At-Arms(ISAA) is a Free Software simple singleton process mana
     - [Examples](#examples)
   - [Logging](#logging)
   - [Contributing](#contributing)
-    - [TODO](#todo)
   - [License](#license)
 
 <!-- markdown-toc end -->
@@ -140,11 +139,6 @@ You can also use isaa as a library.
 ```
 make lib
 ```
-
-### TODO
-
-- release 1.0.0
-- better hash implementation
 
 ## License
 
