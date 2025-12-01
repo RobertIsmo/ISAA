@@ -1,5 +1,6 @@
+VERSION=$(shell git rev-parse --abbrev-ref HEAD)
 CC = gcc
-CCFLAGS = -Wall -Wextra -Wpedantic -std=c99 -fPIC
+CCFLAGS = -Wall -Wextra -Wpedantic -std=c99 -fPIC -DISAA_VERSION=$(VERSION)
 DEBUG_CFLAGS = -g -O0 -DISAA_DEBUG
 RELEASE_CFLAGS = -O2 -DNDEBUG
 
