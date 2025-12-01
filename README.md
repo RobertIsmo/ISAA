@@ -23,7 +23,11 @@ For me personally, ISAA improved the feel of my GNU/Linux system. For example to
 
 ## Installation
 
-clone or download a release and cd into it.
+**We have tagged releases, don't use master!**
+
+clone a release.
+
+```git clone --depth 1 -b w0.0.0 https://robertismo.com/git/isaa```
 
 Then use `make`. 
 
