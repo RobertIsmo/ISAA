@@ -144,9 +144,7 @@ make lib
 ### TODO
 
 - release 1.0.0
-- version flag
 - better hash implementation
-- fix logging so you can actuall use ```journal```
 
 ## License
 

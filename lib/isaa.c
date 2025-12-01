@@ -12,20 +12,22 @@
 #include "isaa.h"
 #include "logger.h"
 
-#define ISAA_HASH_START 7
+#define ISAA_HASH_OFFSET 9741741205859432503ULL
+#define ISAA_HASH_PRIME 17633108866702084699ULL
 
 static pid_t processBuffer[ISAA_MANAGED_NAME_COUNT] = {0};
 
 size_t index_name(const char * name) {
 	size_t len = strlen(name);
-	size_t sum = ISAA_HASH_START;
+	size_t sum = ISAA_HASH_OFFSET;
 
 	for (size_t i = 0; i < len; i++) {
-		sum *= name[i] * name[i] * name[i];
-		sum += 1;
-		sum %= ISAA_MANAGED_NAME_COUNT;
+		sum *= name[i];
+		sum ^= ISAA_HASH_PRIME;
+		sum <<= 1;
 	}
 
+	sum %= ISAA_MANAGED_NAME_COUNT;
 	isaa_log_debug(false, "isaa daemon", "Index %zu from name %s.", sum, name);
 
 	return sum;
